@@ -1,7 +1,7 @@
 Studentica:
-Elizabeta Miličević
-Diplomski studij informatike, 1. godina
-4775/DS
+- Elizabeta Miličević
+- Diplomski studij informatike, 1. godina
+- 4775/DS
 
 Tema projekta je društvena mreža za umjetnike. 
 Baza podataka se sastoji od 5 tablica, i to:
