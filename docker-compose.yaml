@@ -21,7 +21,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=rootpass
       - MYSQL_DATABASE=artists
-      - MYSQL_USER=restouser
+      - MYSQL_USER=artist
       - MYSQL_PASSWORD=lozinka
     volumes:
       - mysql-data:/var/lib/mysql
