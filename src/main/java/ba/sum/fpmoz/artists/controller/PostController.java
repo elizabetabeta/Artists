@@ -4,6 +4,7 @@ import ba.sum.fpmoz.artists.repositories.PostRepository;
 import ba.sum.fpmoz.artists.model.Post;
 import ba.sum.fpmoz.artists.model.UserDetails;
 import jakarta.validation.Valid;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -93,6 +94,11 @@ public class PostController {
         UserDetails user = (UserDetails) auth.getPrincipal();
         model.addAttribute("user", user);
         Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
+
+        if (!user.getUser().getId().equals(post.getUser().getId())) {
+            throw new AccessDeniedException("Ova objava ne pripada tebi i ne možeš je urediti!");
+        }
+
         model.addAttribute("post", post);
         model.addAttribute("posts", postRepository.findAll());
         model.addAttribute("activeLink", "Posts");
