@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hr">
+<html xmlns:th="https://www.thymeleaf.org" lang="hr">
 <head>
     <meta charset="UTF-8">
     <title>Prijava na sustav</title>
@@ -10,17 +10,17 @@
     <div class="row justify-content-center align-items-center h-100">
         <div class="col-6">
             <div class="card shadow p-5">
-            <form th:action="@{/login}" th:object="${user}" method="POST">
-                <div class="mb-3">
-                    <label class="form-label">Email:</label>
-                    <input class="form-control" type="email" th:field="*{email}" required placeholder="Unesite Vašu email adresu" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Lozinka</label>
-                    <input class="form-control" type="password" th:field="*{password}"  required placeholder="Unesite Vašu lozinku" />
-                </div>
-                <button class="btn col-12 btn-outline-primary" type="submit">Prijavi se</button>
-            </form>
+                <form th:action="@{/login}" th:object="${user}" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Email:</label>
+                        <input class="form-control" type="email" th:field="*{email}" required placeholder="Unesite Vašu email adresu" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Lozinka</label>
+                        <input class="form-control" type="password" th:field="*{password}"  required placeholder="Unesite Vašu lozinku" />
+                    </div>
+                    <button class="btn col-12 btn-outline-primary" type="submit">Prijavi se</button>
+                </form>
                 <a href="/register" class="btn col-12 btn-primary mt-2">Registriraj se</a>
             </div>
         </div>

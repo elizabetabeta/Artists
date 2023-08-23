@@ -2,8 +2,8 @@ version: "3.7"
 services:
   resto:
     build: .
-    container_name: artists
-    image: artists:latest
+    container_name: salon
+    image: salon:latest
     ports:
       - 8080:8080
     networks:
@@ -20,8 +20,8 @@ services:
       - rest-network
     environment:
       - MYSQL_ROOT_PASSWORD=rootpass
-      - MYSQL_DATABASE=artists
-      - MYSQL_USER=artist
+      - MYSQL_DATABASE=salon
+      - MYSQL_USER=salon
       - MYSQL_PASSWORD=lozinka
     volumes:
       - mysql-data:/var/lib/mysql

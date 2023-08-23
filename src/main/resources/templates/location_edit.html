@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Uređivanje</title>
+</head>
+<body layout:fragment="content">
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h4>Uređivanje</h4>
+            <form th:object="${location}" th:action="@{/location/edit/{id}(id=${location.getId()})}" method="POST">
+
+
+                <label class="col-form-label">Unesite lokaciju:</label>
+                <input class="form-control" th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}" type="text" th:field="*{name}">
+                <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"></div>
+
+
+                <button type="submit" class="btn btn-primary mt-5">Uredi</button>
+                <a href="/locations" class="btn btn-secondary mt-5">Lokacije</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

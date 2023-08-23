@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Cars</title>
+</head>
+<body layout:fragment="content">
+<div class="row">
+    <div class="col d-flex justify-content-between align-items-center">
+        <br>
+
+        <br>
+        <button data-toggle="tooltip" data-placement="top" title="Dodaj objavu" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCar"><i class="fa-solid fa-plus"></i></button>
+    </div>
+</div>
+
+<div>
+    <div class="card mb-3" th:each="car: ${cars}">
+        <div class="row g-0">
+            <div class="col-md-4">
+            <img style="border-radius: 25px"
+                 th:src="${car.getImage()}" class="img-fluid rounded-start"
+                 alt="Nema slike...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${car.getName()}"></h5> <br>
+                    <p class="card-text" th:text="'Opis: ' + ${car.getDescription()}"> </p>
+                    <p class="card-text" th:text="'Kilometraža: ' + ${car.getKm()}"> </p>
+                    <p class="card-text" th:text="'Godište: ' + ${car.getYear()}"> </p>
+                    <p class="card-text" th:text="'Boja: ' + ${car.getColor()}"> </p>
+                    <br>
+                    <p class="card-text" th:text="'Lokacija: ' + ${car.getLocation().getName()}"> </p>
+
+                    <a data-toggle="tooltip" data-placement="top" title="Obriši" class="btn btn-sm btn-danger"
+                       data-bs-toggle="modal" th:data-bs-target="'#deleteCar-' + ${car.getId()}">
+                        <i class="fa-solid fa-eraser"></i>
+                    </a>
+
+                    <a data-toggle="tooltip" data-placement="top" title="Uredi" class="btn btn-sm btn-secondary"
+                       th:href="@{/car/edit/{id}(id=${car.getId()})}">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL -->
+
+        <div class="modal fade" th:id="'deleteCar-' + ${car.getId()}">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Brisanje</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h3 class="text-danger"> Jeste li sigurni da želite obrisati ovu objavu? </h3>
+                        <img style="border-radius: 25px"
+                             th:src="${car.getImage()}" class="img-fluid rounded-start"
+                             alt="Nema slike...">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Zatvori</button>
+                        <a class="btn btn-sm btn-danger" th:href="@{/car/delete/{id}(id=${car.getId()})}">
+                            Obriši objavu
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL -->
+    </div>
+</div>
+
+<div class="modal fade" id="addCar">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nova objava</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:object="${car}" th:action="@{/car/add}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <label class="col-form-label">Unesite naziv auta:</label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}" type="text" th:field="*{name}">
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"></div>
+
+                    <label class="col-form-label">Unesite opis:</label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('description') ? 'is-invalid' : ''}" type="text" th:field="*{description}">
+                    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="invalid-feedback"></div>
+
+                    <label class="col-form-label">Unesite godište:</label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('year') ? 'is-invalid' : ''}" type="text" th:field="*{year}">
+                    <div th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="invalid-feedback"></div>
+
+                    <label class="col-form-label">Unesite kilometražu:</label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('km') ? 'is-invalid' : ''}" type="text" th:field="*{km}">
+                    <div th:if="${#fields.hasErrors('km')}" th:errors="*{km}" class="invalid-feedback"></div>
+
+                    <label class="col-form-label">Unesite boju:</label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('color') ? 'is-invalid' : ''}" type="text" th:field="*{color}">
+                    <div th:if="${#fields.hasErrors('color')}" th:errors="*{color}" class="invalid-feedback"></div>
+
+                    <label class="col-form-label">Odaberite lokaciju</label>
+                    <select class="form-control" th:field="*{location}">
+                        <option value="">Odaberite lokaciju</option>
+                        <option th:each="location : ${locations}" th:value="${location.id}" th:text="${location.name}"></option>
+                    </select>
+
+
+
+                    <label class="col-form-label">Odaberite sliku:</label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('image') ? 'is-invalid' : ''}" type="file" name="file">
+                    <div th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="invalid-feedback"></div>
+
+                    <!--<input type="hidden" th:name="user" th:value="${user.getUser().getId()}">-->
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
+                    <button type="submit" class="btn btn-primary">Dodaj objavu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+<script type="text/javascript" th:if="${added}">
+    $(function () {
+        $('#addCar').modal("show");
+    })
+</script>
+</body>
+</html>
